@@ -5,12 +5,13 @@ import LodashThrottle from "lodash.throttle";
 
 
 const form = document.querySelector(`.form`);
-form.addEventListener(`submit`, LodashThrottle(createPromise,  amountValue));
+
 // const inputStepForm = document.querySelector(`.step`);
 // const inputDelayForm = document.querySelector(`.delay`);
 // const inputAmountForm = document.querySelector(`.amount`);
 
 let position = 0;
+let delay;
 
 let ObjectForm = {
   delay: '',
@@ -23,7 +24,7 @@ const delayValue =  form.elements.delay.value = ObjectForm.delay;
 const stepValue = form.elements.step.value = ObjectForm.step;
 const delayStep = delayValue + stepValue;
 
-
+form.addEventListener(`submit`, LodashThrottle(createPromise,  amountValue));
 // function createPromise(position, delays ) {
 //   return new Promise((resolve, reject) => {
 //     const shouldResolve = Math.random() > 0.3;
@@ -61,12 +62,12 @@ function preventCreatePromise(evt) {
 }
 
 function createPromise(position, delay) {
- 
+   
   return new Promise((resolve, reject) => {
   
     const shouldResolve = Math.random() > 0.3;
     position += 1;
-    preventCreatePromise();
+  preventCreatePromise();
     setTimeout(() => {
       if (shouldResolve) {
         resolve({ position, delay });
@@ -79,7 +80,7 @@ function createPromise(position, delay) {
   });
 }
 
-createPromise({ position, delay } )
+createPromise({position, delay})
   .then(fulfilledPromise)
   .catch(rejectedPromise);
 

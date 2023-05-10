@@ -1,10 +1,10 @@
 
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-
-const dateTimePicker = document.querySelector(`#datetime-picker`);
+import Notiflix from 'notiflix';
+// const dateTimePicker = document.querySelector(`#datetime-picker`);
 const startButton = document.querySelector(`[data-start]`);
- const allTimer = document.querySelector(`.timer`);
+//  const allTimer = document.querySelector(`.timer`);
 
 const dataDays = document.querySelector(`[data-days]`);
 const dataHours = document.querySelector(`[data-hours]`);
@@ -13,41 +13,27 @@ const dataSeconds = document.querySelector(`[data-seconds]`);
 
 startButton.addEventListener(`click`, onButtonStart);
 startButton.setAttribute(`disabled`, true);
- 
+
+let selectedData;
+
  const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
    minuteIncrement: 1,
- minDate: "today",
-  onClose(selectedDates) {
+
+   onClose(selectedDates) {
+     selectedData = selectedDates[0];
     console.log(selectedDates[0]);
-      if (!selectedDates.length) {
-      window.alert("Please choose a date in the future");
-    } else {
-      startButton.removeAttribute(`disabled`);
+      if (selectedDates[0] - Date.now() < 0) {
+     window.alert("Please choose a date in the future");
+      } else {
+        startButton.removeAttribute(`disabled`);  
     }
   },
 };
 
 flatpickr("#datetime-picker", options);
-
-// flatpickr("#datetime-picker",  {
-//   enableTime: true,
-//   time_24hr: true,
-//   defaultDate: new Date(),
-//   minuteIncrement: 1,
-//   minDate: "today",
-//   onClose(selectedDates) {
-//     console.log(selectedDates[0]);
-//       if (!selectedDates.length) {
-//       window.alert("Please choose a date in the future");
-//     } else {
-//       startButton.removeAttribute(`disabled`);
-//     }
-//   },
-// });
-
 
 const timers = {
   intervalId: null,
@@ -57,24 +43,13 @@ const timers = {
     if (this.isActive) {
       return;
     }
-    // const currentData = Date.now();
-    // const currentTime = Date.now();options.selectedDates
-    const currentTime = new Date(options.selectedDates).getTime();
-    
+   
     this.isActive = true;
-
-    
     this.intervalId = setInterval(() => { 
-      const futureTime = new Date();
-      const deltaTime =  currentTime - futureTime;
+       const currentTime = Date.now();
+      const deltaTime = selectedData - currentTime;
       const time = convertMs(deltaTime);
-       updateTimer(time);
-      
-      // const futureTime = Date.now(`Junuary 01 ${currentData + 1} 00:00:00` );
-      // const deltaTime =  futureTime - currentTime;
-      // const time = convertMs(deltaTime);
-      //  updateTimer(time);
-      
+       updateTimer(time);    
     }, 1000);
   },
 

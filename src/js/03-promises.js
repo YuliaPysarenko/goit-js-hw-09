@@ -1,74 +1,55 @@
-import LodashThrottle from "lodash.throttle";
-
-//  form.addEventListener(`submit`, createPromise);
-//  form.addEventListener(`input`, LodashThrottle(onAllForm,amountValue)); 
-
-
 const form = document.querySelector(`.form`);
+form.addEventListener(`sabmit`, onSabmitForm);
 
-// const inputStepForm = document.querySelector(`.step`);
-// const inputDelayForm = document.querySelector(`.delay`);
-// const inputAmountForm = document.querySelector(`.amount`);
 
 let position = 0;
-let delay;
+let delay = 0;
 
-let ObjectForm = {
-  delay: '',
-  step: '',
-  amount: '',
-};
-
-const amountValue = form.elements.amount.value = ObjectForm.amount;
-const delayValue =  form.elements.delay.value = ObjectForm.delay;
-const stepValue = form.elements.step.value = ObjectForm.step;
-const delayStep = delayValue + stepValue;
-
-form.addEventListener(`submit`, LodashThrottle(createPromise,  amountValue));
-// function createPromise(position, delays ) {
-//   return new Promise((resolve, reject) => {
-//     const shouldResolve = Math.random() > 0.3;
-//     position += 1;
-//     setTimeout(() => {
-//       if (shouldResolve) {
-//         resolve(`✅ Fulfilled promise ${position} in ${delays}ms`);
-//         // Fulfill
-//       } else {
-//         reject(`❌ Rejected promise ${position} in ${delays}ms`);
-//         // Reject
-//       }
-//     }, delayStep);
-//   });
-// }
-
-// createPromise({ position, delays})
-//   .then(fulfilledPromise)
-//   .catch(rejectedPromise);
-
-// function fulfilledPromise({ position, delays}) {
-// result => {
-//     console.log(result); 
-//   };
-// }
-
-// function rejectedPromise({ position, delays }) {
-//   error => {
-//     console.log(error); 
-//   };
-// }
-
-function preventCreatePromise(evt) {
+function onSabmitForm(evt) {
   evt.preventDefault();
+
+  const data = {
+  position: ``,
+  delay: ``,
+  }
+  
+  // Варіант 1
+   const stepForm = form.elements.step.value;
+  for (let i = 0; i === evt.target.form; i += stepForm) {
+
+    position = form.elements.amount.value;
+    delay = form.elements.delay.value;
+  
+    console.log(position, delay);
+  }
+ 
+  // Варіант2
+  
+  // const stepForm = form.elements.step.value;
+  //  position = form.elements.amount.value = data.position;
+  //  delay = form.elements.delay.value = data.delay;
+
+  // for (let i = 0; i === position && i === delay; i += stepForm) {
+  //        createPromise(position, delay);
+  //     }
+
+  
+  //  for (let i = 0; i === form.elements.delay.value && i === form.elements.step.value && i === form.elements.amount.value; i += step) {
+  //   createPromise(position, delay);
+  //     }
+
+  // for (let i = 0; i === evt.target.delay && i === evt.target.step && i === evt.target.amount; i += step) {
+  //   // createPromise(position, delay);
+  //  createPromise({position: data.position, delay: data.delay});
+  //     }
+
 }
 
 function createPromise(position, delay) {
-   
   return new Promise((resolve, reject) => {
-  
     const shouldResolve = Math.random() > 0.3;
-    position += 1;
-  preventCreatePromise();
-    setTimeout(() => {
+
+   setTimeout(() => {
       if (shouldResolve) {
         resolve({ position, delay });
         // Fulfill
@@ -76,55 +57,27 @@ function createPromise(position, delay) {
         reject({ position, delay })
         // Reject
       }
-    }, delayStep);
+   }, delay);
+//   if (position <= amount) {
+//     clearInterval(idSetInterval)
+//     return;
+//     }
+//     position += 1;
   });
 }
 
-createPromise({position, delay})
+// const idSetInterval = setInterval(createPromise, 10);
+
+createPromise( position, delay )
   .then(fulfilledPromise)
   .catch(rejectedPromise);
 
-function fulfilledPromise({ position, delay}) {
+function fulfilledPromise( {position, delay }) {
   console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
 }
 
-function rejectedPromise({ position, delay}) {
+function rejectedPromise({ position, delay }) {
   console.log(`❌ Rejected promise ${position} in ${delay}ms`);
 }
 
-// function createPromise(position, delay) {
-//   return new Promise((resolve, reject) => {
-//     const shouldResolve = Math.random() > 0.3;
 
-//     setInterval(() => {
-//       if (shouldResolve) {
-//         resolve({ position, delay });
-//         // Fulfill
-//       } else {
-//         reject({ position, delay })
-//         // Reject
-//       }
-//     }, amountValue);
-
-//     setTimeoutPromise();
-//   });
-// }
-
-
-// function setTimeoutPromise() {
-//   setTimeout(() => {
-//     positions += 1;
-//   }, delays);
-// }
-
-// createPromise(positions, delays)
-//   .then(fulfilledPromise)
-//   .catch(rejectedPromise);
-
-// function fulfilledPromise({ position, delay}) {
-//   console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-// }
-
-// function rejectedPromise({ position, delay }) {
-//   console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-// }

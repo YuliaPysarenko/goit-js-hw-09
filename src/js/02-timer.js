@@ -52,7 +52,7 @@ const timers = {
        
         if (deltaTime <= 0) {
         return clearInterval(this.intervalId);
-          // return;
+        
     }
        const time = convertMs(deltaTime);
       updateTimer(time);
@@ -69,13 +69,8 @@ const timers = {
  
 function onButtonStart() {
   timers.start();
-  //  timers.stop();
-  
-}
 
-// if (onButtonStart) {
-//   clearInterval(timers.intervalId);
-// }
+}
 
 function updateTimer({days, hours, minutes, seconds }) {
  dataDays.innerText = days;

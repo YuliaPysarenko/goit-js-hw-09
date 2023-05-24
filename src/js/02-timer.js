@@ -25,54 +25,69 @@ let selectedData;
     console.log(selectedDates[0]);
       if (selectedDates[0] - Date.now() < 0) {
      window.alert("Please choose a date in the future");
-      } else {
+      }
+      else {
         startButton.removeAttribute(`disabled`);
-    }
+     }
   },
 };
-
-
 
 flatpickr("#datetime-picker", options);
 
 const timers = {
-  intervalId: null,
+ intervalId: null,
   isActive: false,
- 
+  // deltaTime: null,
+
   start() {
     if (this.isActive) {
       return;
     }
-   
+
     this.isActive = true;
-    this.intervalId = setInterval(() => { 
+     this.intervalId = setInterval(() => {
+   
        const currentTime = Date.now();
-      const deltaTime = selectedData - currentTime;
-      const time = convertMs(deltaTime);
-       updateTimer(time);    
-    }, 1000);
+       const deltaTime = selectedData - currentTime;
+       
+        if (deltaTime <= 0) {
+        return clearInterval(this.intervalId);
+          // return;
+    }
+       const time = convertMs(deltaTime);
+      updateTimer(time);
+    }, 1000); 
   },
+   
 
   stop() {
-    clearInterval(this.intervalId);
+ 
+     clearInterval(this.intervalId);
     this.isActive = false;
-  },
-}
-
-
+   },
+};
+ 
 function onButtonStart() {
- timers.start(); 
+  timers.start();
+  //  timers.stop();
+  
 }
+
+// if (onButtonStart) {
+//   clearInterval(timers.intervalId);
+// }
 
 function updateTimer({days, hours, minutes, seconds }) {
  dataDays.innerText = days;
  dataHours.innerText = hours;
  dataMinutes.innerText = minutes;
- dataSeconds.innerText = seconds;
+  dataSeconds.innerText = seconds;
 }
+
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
+
 }
 
 function convertMs(ms) {

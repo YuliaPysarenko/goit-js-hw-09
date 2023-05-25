@@ -2,6 +2,7 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
+
 const startButton = document.querySelector(`[data-start]`);
 
 const dataDays = document.querySelector(`[data-days]`);
@@ -50,9 +51,9 @@ const timers = {
        const currentTime = Date.now();
        const deltaTime = selectedData - currentTime;
        
-        if (deltaTime <= 0) {
-        return clearInterval(this.intervalId);
-        
+       if (deltaTime <= 0) {
+         startButton.setAttribute(`disabled`,true);
+          return clearInterval(this.intervalId);  
     }
        const time = convertMs(deltaTime);
       updateTimer(time);

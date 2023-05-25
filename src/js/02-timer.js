@@ -46,24 +46,28 @@ const timers = {
     }
 
     this.isActive = true;
-     this.intervalId = setInterval(() => {
-   
+    this.intervalId = setInterval(() => {
+          
+      startButton.setAttribute(`disabled`, true);
+      
        const currentTime = Date.now();
        const deltaTime = selectedData - currentTime;
        
-       if (deltaTime <= 0) {
-         startButton.setAttribute(`disabled`,true);
-          return clearInterval(this.intervalId);  
+       if (deltaTime <= 0) { 
+          return clearInterval(this.intervalId);
+        
     }
        const time = convertMs(deltaTime);
+   
       updateTimer(time);
     }, 1000); 
   },
    
 
   stop() {
- 
-     clearInterval(this.intervalId);
+
+    clearInterval(this.intervalId);
+       
     this.isActive = false;
    },
 };
